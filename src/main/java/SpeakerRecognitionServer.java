@@ -85,8 +85,12 @@ public class SpeakerRecognitionServer {
         /* we just started the server and want to train the server with all enrolled voices */
         post("/train", (req,res) -> {
 
+            System.out.println("train 1");
+
             UserService userService = new UserService(MongoHelper.mongo());
             FindIterable<Document> users = userService.findAll();
+
+            System.out.println("train 2");
 
             users.forEach(new Block<Document>() {
                 @Override
@@ -107,7 +111,7 @@ public class SpeakerRecognitionServer {
                 }
             });
 
-            return "train";
+            return "training done";
         });
 
 
