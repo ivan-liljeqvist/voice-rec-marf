@@ -1,2 +1,2 @@
 # voicerec
-Speech independent voice recognition on Android.
+Speech independent voice recognition server.
