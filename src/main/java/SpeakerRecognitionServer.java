@@ -6,6 +6,7 @@ import com.bitsinharmony.recognito.*;
 import com.google.gson.Gson;
 import com.mongodb.Block;
 import com.mongodb.client.FindIterable;
+import helpers.ResponseHelper;
 import helpers.MongoHelper;
 import helpers.RequestHelper;
 import org.bson.Document;
@@ -51,7 +52,7 @@ public class SpeakerRecognitionServer {
     public static void main(String[] args) {
 
 
-        get("/", (req,res)->"Speaker Recognition Server, running!");
+        get("/", (req,res)->ResponseHelper.splash());
 
 
 
@@ -79,7 +80,7 @@ public class SpeakerRecognitionServer {
             userService.createNewUser("{\"firstname\": \""+firstname+"\",\"lastname\": \""+lastname+"\",\"enrollmentFilePath\": \""+enrollmentFile.getAbsolutePath()+"\"}");
 
 
-            return "enrolled";
+            return ResponseHelper.enrolled();
 
         });
 
@@ -98,11 +99,17 @@ public class SpeakerRecognitionServer {
 
                 authenticationFile.delete();
 
-                return match.getKey().getFirstname() + " " + match.getKey().getLastname();
+                if(match.getLikelihoodRatio()>Constants.AUTHENTICATION_THRESHOLD_PERCENTAGE){
+                    return ResponseHelper.authenticated(match.getKey().getFirstname(),match.getKey().getLastname(),match.getLikelihoodRatio());
+                }
+                else{
+                    return ResponseHelper.notAuthenticated();
+                }
+
             }
             catch(Exception e){
                 authenticationFile.delete();
-                return "Internal Server Error";
+                return ResponseHelper.internalError();
             }
 
         });
@@ -143,7 +150,7 @@ public class SpeakerRecognitionServer {
 
             });
 
-            return "training done";
+            return ResponseHelper.trainingDone();
         });
 
 
