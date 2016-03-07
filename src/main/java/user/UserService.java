@@ -9,6 +9,7 @@ import com.sun.javadoc.Doc;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -50,6 +51,12 @@ public class UserService {
                             .append("enrollmentFilePath",user.getEnrollmentFilePath());
 
         collection.insertOne(document);
+    }
+
+    public void removeUsersWithName(String firstname, String lastname){
+
+        db.getCollection("user").deleteMany(new Document("firstname", firstname).append("lastname",lastname));
+
     }
 
     public void find(String id) {

@@ -18,6 +18,9 @@ import java.util.List;
 import static spark.Spark.get;
 import static spark.Spark.post;
 
+/**
+ * This is the class that contains all the routes and implementation of each route.
+ */
 
 public class SpeakerRecognitionServer {
 
@@ -41,6 +44,9 @@ public class SpeakerRecognitionServer {
             //create new user
             String firstname = RequestHelper.getStringFromPart(req.raw().getPart("firstname"));
             String lastname = RequestHelper.getStringFromPart(req.raw().getPart("lastname"));
+
+
+
             User newUser = new User(firstname,lastname,enrollmentFile.getAbsolutePath());
 
             //train recognito
@@ -48,6 +54,7 @@ public class SpeakerRecognitionServer {
 
             //save to Mongo
             UserService userService = new UserService(MongoHelper.mongo());
+            userService.removeUsersWithName(firstname,lastname); // we dont want duplicates, remove the previous users with this name
             userService.createNewUser("{\"firstname\": \""+firstname+"\",\"lastname\": \""+lastname+"\",\"enrollmentFilePath\": \""+enrollmentFile.getAbsolutePath()+"\"}");
 
 
@@ -92,23 +99,20 @@ public class SpeakerRecognitionServer {
 
             System.out.println("train 2");
 
-            users.forEach(new Block<Document>() {
-                @Override
-                public void apply(final Document document) {
-                    User user = new Gson().fromJson(document.toJson(), User.class);
+            users.forEach((Block<Document>) document -> {
+                User user = new Gson().fromJson(document.toJson(), User.class);
 
-                    File enrollmentFile = new File(user.getEnrollmentFilePath());
-                    try{
-                        System.out.println("training "+user.getEnrollmentFilePath());
-                        recognito.createVoicePrint(user,enrollmentFile);
-                    }
-                    catch(Exception e){
-                        System.out.println("Couldnt train. "+user.getEnrollmentFilePath());
-                    }
-
-
-
+                File enrollmentFile = new File(user.getEnrollmentFilePath());
+                try{
+                    System.out.println("training "+user.getEnrollmentFilePath());
+                    recognito.createVoicePrint(user,enrollmentFile);
                 }
+                catch(Exception e){
+                    System.out.println("Couldnt train. "+user.getEnrollmentFilePath());
+                }
+
+
+
             });
 
             return "training done";
