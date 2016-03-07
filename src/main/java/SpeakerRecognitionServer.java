@@ -19,7 +19,28 @@ import static spark.Spark.get;
 import static spark.Spark.post;
 
 /**
- * This is the class that contains all the routes and implementation of each route.
+ * This is the class that contains all the routes and implementations of each route.
+ *
+ * Each endpoint expects data as "form-data".
+ *
+ * Endpoints:
+ * --------------------------------
+ * 1) POST /enroll -> a new user registers his/her voice
+ *      Expects:
+ *      - firstname
+ *      - lastname
+ *      - file
+ *
+ * 2) POST /authenticate -> a user submits her/his voice for authentication
+ *      Expects:
+ *      -firstname
+ *      -lastname
+ *      -file
+ *
+ * 3) POST /train -> when we start the server we need to train it with previously enrolled users.
+ *                   We read from the DB and train the server with all known enrollment files.
+ *      Expects:
+ *      nothing
  */
 
 public class SpeakerRecognitionServer {
@@ -92,17 +113,24 @@ public class SpeakerRecognitionServer {
         /* we just started the server and want to train the server with all enrolled voices */
         post("/train", (req,res) -> {
 
-            System.out.println("train 1");
+
+            /*
+                1) Get all users.
+                2) Train recognito with each user's enrollmentFile
+             */
 
             UserService userService = new UserService(MongoHelper.mongo());
             FindIterable<Document> users = userService.findAll();
 
-            System.out.println("train 2");
 
             users.forEach((Block<Document>) document -> {
+                //convert each user from Mongo Document to a User object
                 User user = new Gson().fromJson(document.toJson(), User.class);
 
+                //take the enrollment file path from each user and make a File object
                 File enrollmentFile = new File(user.getEnrollmentFilePath());
+
+                //train Recognito
                 try{
                     System.out.println("training "+user.getEnrollmentFilePath());
                     recognito.createVoicePrint(user,enrollmentFile);
