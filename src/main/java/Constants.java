@@ -4,6 +4,6 @@
 public class Constants {
 
     /* If the likelihood is below this percentage, we don't authenticate the user. */
-    public final static int AUTHENTICATION_THRESHOLD_PERCENTAGE = 70;
+    public final static int AUTHENTICATION_THRESHOLD_PERCENTAGE = 60;
 
 }
