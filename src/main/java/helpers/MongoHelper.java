@@ -2,9 +2,7 @@ package helpers;
 
 import com.mongodb.*;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.util.JSON;
 
-import java.util.Arrays;
 
 /**
  * Created by IvanLiljeqvist on 07/03/16.

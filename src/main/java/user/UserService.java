@@ -1,17 +1,12 @@
 package user;
 
 import com.google.gson.Gson;
-import com.mongodb.*;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.sun.javadoc.Doc;
 import org.bson.Document;
-import org.bson.types.ObjectId;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**

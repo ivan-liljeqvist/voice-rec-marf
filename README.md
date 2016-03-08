@@ -1,6 +1,8 @@
 # voicerec
 Speech independent voice recognition server.
 
+http://178.62.242.244:4567
+
 
 # Endpoints
 
