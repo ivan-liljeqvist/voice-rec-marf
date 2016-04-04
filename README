@@ -1,0 +1,142 @@
+SpeakerIdentApp - Text-Independent (TI) Speaker Identification Application
+--------------------------------------------------------------------------
+
+COPYRIGHT
+---------
+
+$Header: /cvsroot/marf/apps/SpeakerIdentApp/README,v 1.18 2012/01/09 04:03:22 mokhov Exp $
+
+Copyright (C) 2002 - 2012 The MARF Research and Development Group
+
+<http://marf.sf.net>
+
+The application is distributed under the same terms as
+the MARF itself. In short: it's a BSD-style license.
+See COPYRIGHT for details.
+
+
+GENERALITIES
+------------
+
+NOTE: This demo application utilizes the MARF framework probably the fullest.
+      You have to have the latest marf-<version>.jar file, which
+      you can obtain from <http://marf.sf.net/>, and put it
+      somewhere under your CLASSPATH, EXTDIRS (Java's
+      extesions directory), or application directory itself.
+      The -bin and -bundle distros have the .jar file within them,
+      (but it may not be the latest). You will need JDK/JRE 1.4
+      or higher for it to function properly.
+
+This is (still) a console-based application. GUI is still being developed.
+
+For the fresh install you need to retrain the system before
+you can start feeding testing samples into it. If you
+work with our sample set, to save some time you may download our
+trainin-sets tarball with pre-trained data.
+
+RUNNING
+-------
+
+(This applies to the (pre)compiled binary version; if you downloaded
+sources only, see the next section prior this one.)
+
+Aside from running from the Makefile as described in the follow up section,
+you can run testing and wrapper scripts or .jar/.class files directly.
+
+Linux
+
+SpeakerIdentApp and testing.sh are the shell scripts. The former
+is merely a wrapper for the Java .class or .jar files, which passes
+all the options to the Java application directly. The script tries
+first to locate a .jar and then a .class file in the current directory
+by default. The testing.sh default script is an 'all-out' testing
+with retraining for all possible combinations of algorithms.
+WARNING: it may run as long as 10 days depending on the hardware
+for all algorithms and voice samples, so if you want something for
+your quicker needs, adjust it accordingly by removing options
+you don't need.
+
+Windows
+
+SpeakerIdentApp.bat and testing.bat are Windows equivalents of the
+above shell scripts, so all of the above applies to them. Windows
+also has a 'retrain.lnk' shortcut to testing.bat that automatically
+supplies the --retrain option when double-clicking it.
+
+
+BUILDING FROM SOURCES
+---------------------
+
+(This does not apply to you if you downloaded the binary-only distro.)
+
+
+UNIXen
+
+It is assumed you have a GNU-style make, which comes
+under some UNIXen under the name gmake.
+
+Type:
+
+$ make
+
+	to build it
+
+$ make train-run
+
+	to build, train the system, and then test
+
+$ make ident-run
+
+	to just batch-test it w/o retraining
+
+$ make javadoc-html
+
+	to make a javadoc-style reference to the application's code;
+	the generated documents will be placed under the ./html subdirectory
+
+$ make clean
+
+	to remove all .class files
+
+$ make maintainer-clean
+
+	to also remove output, text, ppm, log, diff, and some
+	other temp. developer files
+
+NOTE: You may need to tweak the Makefile for your specific preferences.
+
+
+Windows
+
+For JBuilder users there is the SpeakerIdentApp.jpx project
+file, you can use that if you are unfamiliar with
+the make utility or suffer from its unavailability.
+
+
+Eclipse
+
+For both Linux and Windows, you can import the Eclipse project
+files from the application directory, called .project and .classpath.
+
+
+DOCUMENTATION
+-------------
+
+Aside from this README, ChangeLog, the javadoc reference, and code
+comments this application doesn't have any documentation within.
+It's documented, however, along with the MARF framework itself,
+in the MARF's report-manual. Grab its PDF version from either
+MARF's -doc distro or the our web page: <http://marf.sf.net>.
+
+
+CONTACT
+-------
+
+	Report bugs to:
+		<marf-bugs@lists.sf.net>
+
+	Comments, ideas, contributions, etc. direct to:
+		<marf-devel@lists.sf.net>
+		<mokhov@users.sf.net>
+
+EOF

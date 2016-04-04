@@ -1,0 +1,29 @@
+#!/bin/bash
+
+#
+# Wrapper Shell Script for SpeakerIdentApp.class/.jar
+# for UNIX environment. Accepts all the options
+# that SpeakerIdentApp.class/.jar accepts. Edit as
+# needed to suit your environment.
+#
+# Serguei Mokhov
+#
+# $Id: SpeakerIdentApp,v 1.1 2007/01/03 21:47:58 mokhov Exp $
+#
+
+JAVA=java
+CLASSPATH=.:marf.jar
+JFLAGS="-ea -verify -classpath $CLASSPATH"
+APP=SpeakerIdentApp
+
+# Prefer .jar first over .class if exists
+if [ -e "$APP.jar" ]; then
+	APP="$APP.jar"
+	JFLAGS="$JFLAGS -jar"
+fi
+
+$JAVA $JFLAGS $APP $*
+
+exit $?
+
+# EOF
